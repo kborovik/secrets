@@ -2,9 +2,10 @@
 .SILENT:
 .EXPORT_ALL_VARIABLES:
 
-gpg_key := kb@lab5.ca
+gpg_key := 79A09C51CF531E16444D6871B59466C2C0CCF0BF
 
-txt := $(shell ls -1 | grep -vE '.asc|makefile|README.md' | tr '\n' ' ')
+dir := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
+txt := $(shell ls -1 $(dir) | grep -vE '.asc|makefile|README.md' | tr '\n' ' ')
 asc := $(addsuffix .asc,$(txt))
 
 help:
