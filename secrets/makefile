@@ -38,7 +38,7 @@ encrypt:
 
 $(asc): $(txt)
 	$(call header,Encrypting $@)
-	gpg -a -e -r $(gpg_key) $(@:%.asc=%)
+	gpg -aer $(gpg_key) $(@:%.asc=%)
 
 clean:
 	$(call header,Removing unencrypted secrets)
