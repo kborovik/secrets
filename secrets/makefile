@@ -42,7 +42,7 @@ $(asc): $(txt)
 
 clean:
 	$(call header,Removing unencrypted secrets)
-	$(foreach file,$(txt),rm $(file);)
+	$(foreach file,$(txt),shred -uf $(file);)
 
 ###############################################################################
 # Colors and Headers
