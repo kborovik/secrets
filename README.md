@@ -30,10 +30,12 @@ Utilize GPG encryption to store secrets within the source code repository.
 
 ```shell
 (0) > make
-Help:
-  make decrypt        # Decrypt all secrets
-  make encrypt        # Encrypt all secrets
-  make clean          # Remove unencrypted secrets
+==> Settings <==
+GPG_KEY: 5B3F2E505184715EE22BFF04FF0F630A17B88E52
+==> Help <==
+make decrypt - Decrypt all secrets
+make encrypt - Encrypt all secrets
+make clean - Remove unencrypted secrets
 ```
 
 **Decrypt Secret**
