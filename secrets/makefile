@@ -30,7 +30,7 @@ help:
 
 decrypt:
 	$(call header,Decrypting secrets)
-	$(foreach file,$(wildcard *.asc),gpg $(file) && touch $(file);)
+	$(foreach file,$(wildcard *.asc),gpg $(file) && touch $(file) && chmod 600 $(file:%.asc=%);)
 
 encrypt:
 	$(call header,Encrypting secrets)
