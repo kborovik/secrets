@@ -10,7 +10,7 @@ MAKEFLAGS += --no-builtin-rules --no-builtin-variables
 
 gpg_id ?= $(word 1,$(file < .gpg_id))
 
-txt := $(shell ls -1 | grep -vE '.asc|makefile|.gpg_id' | tr '\n' ' ')
+txt := $(shell ls -1 | grep -vE 'makefile|.asc|.gpg_id|.tfvars' | tr '\n' ' ')
 asc := $(addsuffix .asc,$(txt))
 
 ###############################################################################
