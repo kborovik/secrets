@@ -1,35 +1,35 @@
 # The Lost Art of the Makefile: Simple Secret Sharing for Small Teams
 
-**Introduction**
+## Introduction
 
 This repository demonstrates a straightforward method for sharing secrets within a small development team when centralized secret management tools (like Hashicorp Vault) aren't feasible. The approach leverages GPG encryption to securely embed secrets directly within your source code repository.
 
-**Problem**
+## Problem
 
 The challenge lies in finding a safe and reliable way to include secrets in your development repository without the overhead of centralized secret management solutions.
 
-**Solution**
+## Solution
 
 Utilize GPG encryption to store secrets within the source code repository.
 
-**Requirements**
+## Requirements
 
-* GnuPGP ([https://gnupg.org/](https://gnupg.org/))
-* GNU Make
+* [GnuPGP](https://gnupg.org/)
+* [GNU Make](https://www.gnu.org/software/make/)
 
-**Instructions**
+## Instructions
 
-1. Place the provided `makefile` and `.gitignore` into a designated `secrets` directory within your repository.
-2. Configure the `makefile`:  Replace the placeholder GPG key IDs with the actual public key IDs of your team members.
+1. Place the provided `makefile` into a designated `secrets` directory within your repository.
+2. Add GPG_ID to `.gpg_id` file in `secrets` directory to specify the encryption key.
 
-**Demo**
+## Demo
 
 [![asciicast](https://asciinema.org/a/646428.svg)](https://asciinema.org/a/646428)
 
-**Help**
+## Usage
 
 ```shell
-(0) > make
+$ make
 ==> Settings <==
 GPG_KEY: 5B3F2E505184715EE22BFF04FF0F630A17B88E52
 ==> Help <==
@@ -38,15 +38,15 @@ make encrypt - Encrypt all secrets
 make clean - Remove unencrypted secrets
 ```
 
-**Decrypt Secret**
+### Decrypt Secret
 
 ```shell
-(0) > gpg -dq secret.asc 
+$ gpg -dq secret.asc 
 I2eddWBzw3Yd4ZKi
 ```
 
-**Important Considerations**
+## Important Considerations
 
 * **Key Management:** Establish a secure process for sharing and rotating GPG keys within your team.
-* **Version Control:**  Treat the `secrets` directory with the same sensitivity as you would your source code. 
+* **Version Control:** Treat the `secrets` directory with the same sensitivity as you would your source code. 
 

@@ -8,9 +8,9 @@ MAKEFLAGS += --no-builtin-rules --no-builtin-variables
 # Settings
 ###############################################################################
 
-gpg_key ?= $(word 1,$(file < .gpg_key))
+gpg_id ?= $(word 1,$(file < .gpg_id))
 
-txt := $(shell ls -1 | grep -vE '.asc|makefile|.gpg_key' | tr '\n' ' ')
+txt := $(shell ls -1 | grep -vE '.asc|makefile|.gpg_id' | tr '\n' ' ')
 asc := $(addsuffix .asc,$(txt))
 
 ###############################################################################
@@ -19,19 +19,28 @@ asc := $(addsuffix .asc,$(txt))
 
 .PHONY: help decrypt encrypt clean
 
-help: .gpg_key
+help: .gpg_id .gitignore
 	$(call header,Settings)
-	$(call var,gpg_key,$(gpg_key))
+	$(call var,gpg_id,$(gpg_id))
 	$(call header,Help)
 	$(call help,make decrypt,Decrypt all secrets)
 	$(call help,make encrypt,Encrypt all secrets)
 	$(call help,make clean,Remove unencrypted secrets)
 
-.gpg_key:
+.gpg_id:
 	touch $@
 
-ifeq ($(gpg_key),)
-$(error "gpg_key is not set. Set it or define a '.gpg_key' file")
+.gitignore:
+	cat << EOF > $@
+	**
+	!.gitignore
+	!.gpg_key
+	!*.asc
+	!makefile
+	EOF
+
+ifeq ($(gpg_id),)
+$(error "gpg_id is not set. Set it or define a '.gpg_id' file")
 endif
 
 decrypt:
@@ -40,11 +49,11 @@ decrypt:
 
 encrypt:
 	$(call header,Encrypting secrets)
-	$(foreach file,$(txt),gpg -aer $(gpg_key) $(file);)
+	$(foreach file,$(txt),gpg -aer $(gpg_id) $(file);)
 
 $(asc): $(txt)
 	$(call header,Encrypting $@)
-	gpg -aer $(gpg_key) $(@:%.asc=%)
+	gpg -aer $(gpg_id) $(@:%.asc=%)
 
 clean:
 	$(call header,Removing unencrypted secrets)
