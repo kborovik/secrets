@@ -31,7 +31,7 @@ help: .gpg_key
 	touch $@
 
 ifeq ($(gpg_key),)
-$(error "gpg_key is not set. Set it or define a .gpg_key file")
+$(error "gpg_key is not set. Set it or define a '.gpg_key' file")
 endif
 
 decrypt:
