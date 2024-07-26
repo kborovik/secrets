@@ -20,18 +20,18 @@ Utilize GPG encryption to store secrets within the source code repository.
 ## Instructions
 
 1. Place the provided `makefile` into a designated `secrets` directory within your repository.
-2. Add GPG_ID to `.gpg_id` file in `secrets` directory to specify the encryption key.
+2. Add GPG_ID to `.gpg_id` file specifying the key to use for encryption/decryption.
 
-## Demo
-
-[![asciicast](https://asciinema.org/a/646428.svg)](https://asciinema.org/a/646428)
+```shell
+$ echo 10C9CE7BD969B9839A0B1D4DD9B5E06B6CE2A97B > .gpg_id
+```
 
 ## Usage
 
 ```shell
 $ make
 ==> Settings <==
-GPG_KEY: 5B3F2E505184715EE22BFF04FF0F630A17B88E52
+gpg_id: 10C9CE7BD969B9839A0B1D4DD9B5E06B6CE2A97B
 ==> Help <==
 make decrypt - Decrypt all secrets
 make encrypt - Encrypt all secrets
@@ -44,9 +44,3 @@ make clean - Remove unencrypted secrets
 $ gpg -dq secret.asc 
 I2eddWBzw3Yd4ZKi
 ```
-
-## Important Considerations
-
-* **Key Management:** Establish a secure process for sharing and rotating GPG keys within your team.
-* **Version Control:** Treat the `secrets` directory with the same sensitivity as you would your source code. 
-
