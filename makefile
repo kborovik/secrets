@@ -14,11 +14,10 @@ MAKEFLAGS += --no-builtin-rules --no-builtin-variables
 version:
 	$(info ==> Version <==)
 	echo $$(date +%Y.%m.%d-%H%M) >| VERSION
-	git add VERSION
+	git add --all
 	echo "VERSION: $$(cat VERSION)"
 
 commit: version
 	$(info ==> Commit <==)
-	git add --all
 	git commit -m "$$(cat VERSION)"
 

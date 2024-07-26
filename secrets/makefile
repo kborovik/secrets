@@ -1,7 +1,6 @@
 .ONESHELL:
 .SILENT:
 .EXPORT_ALL_VARIABLES:
-.DEFAULT_GOAL: help
 
 MAKEFLAGS += --no-builtin-rules --no-builtin-variables
 
@@ -9,9 +8,9 @@ MAKEFLAGS += --no-builtin-rules --no-builtin-variables
 # Settings
 ###############################################################################
 
-gpg_key := 5B3F2E505184715EE22BFF04FF0F630A17B88E52
+gpg_key ?= $(word 1,$(file < .gpg_key))
 
-txt := $(shell ls -1 | grep -vE '.asc|makefile|README.md' | tr '\n' ' ')
+txt := $(shell ls -1 | grep -vE '.asc|makefile|.gpg_key' | tr '\n' ' ')
 asc := $(addsuffix .asc,$(txt))
 
 ###############################################################################
@@ -20,13 +19,20 @@ asc := $(addsuffix .asc,$(txt))
 
 .PHONY: help decrypt encrypt clean
 
-help:
+help: .gpg_key
 	$(call header,Settings)
-	$(call var,GPG_KEY,$(gpg_key))
+	$(call var,gpg_key,$(gpg_key))
 	$(call header,Help)
 	$(call help,make decrypt,Decrypt all secrets)
 	$(call help,make encrypt,Encrypt all secrets)
 	$(call help,make clean,Remove unencrypted secrets)
+
+.gpg_key:
+	touch $@
+
+ifeq ($(gpg_key),)
+$(error "gpg_key is not set. Set it or define a .gpg_key file")
+endif
 
 decrypt:
 	$(call header,Decrypting secrets)
@@ -48,15 +54,17 @@ clean:
 # Colors and Headers
 ###############################################################################
 
-black := \033[30m
-red := \033[31m
-green := \033[32m
-yellow := \033[33m
-blue := \033[34m
-magenta := \033[35m
-cyan := \033[36m
-white := \033[37m
-reset := \033[0m
+TERM := xterm-256color
+
+black := $$(tput setaf 0)
+red := $$(tput setaf 1)
+green := $$(tput setaf 2)
+yellow := $$(tput setaf 3)
+blue := $$(tput setaf 4)
+magenta := $$(tput setaf 5)
+cyan := $$(tput setaf 6)
+white := $$(tput setaf 7)
+reset := $$(tput sgr0)
 
 define header
 echo "$(blue)==> $(1) <==$(reset)"
