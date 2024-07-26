@@ -14,7 +14,7 @@ ifeq ($(GPG_ID),)
 $(error "GPG_ID is not set. Create `.gpg_id` file, or pass via env var GPG_ID")
 endif
 
-txt := $(shell ls -1 | grep -vE 'makefile|.asc|.GPG_ID|.tfvars' | tr '\n' ' ')
+txt := $(shell ls -1 | grep -vE 'makefile|.asc|.gpg_id|.tfvars' | tr '\n' ' ')
 asc := $(addsuffix .asc,$(txt))
 
 ###############################################################################
