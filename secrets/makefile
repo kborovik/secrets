@@ -40,6 +40,7 @@ help: .gitignore .gpg_id
 	!.gitignore
 	!.gpg_id
 	!*.asc
+	!*.tfvars
 	!makefile
 	EOF
 
