@@ -9,7 +9,12 @@ MAKEFLAGS += --no-builtin-rules --no-builtin-variables
 # Repo Version
 ###############################################################################
 
-.PHONY: version commit
+.PHONY: help version commit
+
+help:
+	$(info ==> Help <==)
+	$(info make version - Stage all files)
+	$(info make commit  - Create commit)
 
 version:
 	$(info ==> Version <==)
