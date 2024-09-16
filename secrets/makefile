@@ -81,9 +81,9 @@ echo "$(blue)==> $(1) <==$(reset)"
 endef
 
 define help
-echo "$(green)$(1)$(reset) - $(white)$(2)$(reset)"
+echo "$(green)$(1)$(reset)	$(white)$(2)$(reset)"
 endef
 
 define var
-echo "$(magenta)$(1)$(reset): $(yellow)$(2)$(reset)"
+echo "$(magenta)$(1)$(reset)=$(yellow)$(2)$(reset)"
 endef
