@@ -14,8 +14,8 @@ ifeq ($(GPG_ID),)
 $(error "GPG_ID is not set. Create `.gpg_id` file, or pass via env var GPG_ID")
 endif
 
-txt := $(shell ls -1 | grep -vE 'makefile|.asc|.gpg_id|.tfvars' | tr '\n' ' ')
-asc := $(addsuffix .asc,$(txt))
+txt := $(shell ls -1 | grep -vE 'makefile|.gpg|.gpg_id|.tfvars' | tr '\n' ' ')
+gpg := $(addsuffix .gpg,$(txt))
 
 ###############################################################################
 # Targets
@@ -39,22 +39,22 @@ help: .gitignore .gpg_id
 	**
 	!.gitignore
 	!.gpg_id
-	!*.asc
+	!*.gpg
 	!*.tfvars
 	!makefile
 	EOF
 
 decrypt:
 	$(call header,Decrypting secrets)
-	$(foreach file,$(wildcard *.asc),gpg $(file) && touch $(file) && chmod 600 $(file:%.asc=%);)
+	$(foreach file,$(wildcard *.gpg),gpg $(file) && touch $(file) && chmod 600 $(file:%.gpg=%);)
 
 encrypt:
 	$(call header,Encrypting secrets)
-	$(foreach file,$(txt),gpg -aer $(GPG_ID) $(file);)
+	$(foreach file,$(txt),gpg -er $(GPG_ID) $(file);)
 
-$(asc): $(txt)
+$(gpg): $(txt)
 	$(call header,Encrypting $@)
-	gpg -aer $(GPG_ID) $(@:%.asc=%)
+	gpg -er $(GPG_ID) $(@:%.gpg=%)
 
 clean:
 	$(call header,Removing unencrypted secrets)
